@@ -1,6 +1,6 @@
 package com.iterates.redis.clone;
 
-import com.iterates.simple.redis.model.exceptions.RedisStoreException;
+import com.iterates.redis.clone.model.exceptions.RedisStoreException;
 
 public interface Store {
 	

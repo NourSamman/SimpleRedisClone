@@ -5,14 +5,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
-
-import com.iterates.simple.redis.model.exceptions.IncrDecrVariableOfTypeNotInteger;
-import com.iterates.simple.redis.model.exceptions.InvalidVariableType;
-import com.iterates.simple.redis.model.exceptions.RedisStoreException;
-import com.iterates.simple.redis.model.exceptions.VariableDoesNotExist;
+import com.iterates.redis.clone.model.exceptions.IncrDecrVariableOfTypeNotInteger;
+import com.iterates.redis.clone.model.exceptions.InvalidVariableType;
+import com.iterates.redis.clone.model.exceptions.RedisStoreException;
+import com.iterates.redis.clone.model.exceptions.VariableDoesNotExist;
 
 @Service
 @Primary
