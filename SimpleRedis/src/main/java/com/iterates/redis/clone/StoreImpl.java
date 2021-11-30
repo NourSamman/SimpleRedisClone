@@ -34,7 +34,7 @@ public class StoreImpl implements Store{
 
 	private boolean isAcceptableType(Object value)
 	{
-		return value instanceof AtomicInteger || value instanceof String;
+		return value instanceof Number || value instanceof String;
 	}
 	
 	private void validateVariableExists(String varName) throws VariableDoesNotExist {
@@ -46,9 +46,11 @@ public class StoreImpl implements Store{
 
 		if (!isAcceptableType(value))
 			throw new InvalidVariableType();
-
-		LinkedList<Object> valuesList = (LinkedList<Object>)get(varName);
 		
+		//TODO
+		//LinkedList<Object> valuesList = (LinkedList<Object>)get(varName);
+		
+		LinkedList<Object> valuesList = new LinkedList<Object>();
 		valuesList.add(value);
 
 		storeStructure.put(varName, valuesList);
@@ -72,7 +74,7 @@ public class StoreImpl implements Store{
 		if (value != null) {
 			if (value.size() == 1) {
 				Object storedObject = value.get(0);
-				if (storedObject instanceof AtomicInteger) {
+				if (storedObject instanceof Number) {
 					value.add(0, ((AtomicInteger) storedObject).addAndGet(count));
 				} else {
 					throw new IncrDecrVariableOfTypeNotInteger();
@@ -154,6 +156,7 @@ public class StoreImpl implements Store{
 	}
 
 	public synchronized void expires(String varName,  long seconds) throws RedisStoreException {
+		
 //		storeStructure.wait(seconds*1000);
 //		storeStructure.remove(varName);
 		
