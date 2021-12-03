@@ -1,4 +1,4 @@
-package com.iterates.redis.clone;
+package com.iterates.redis.clone.store.service;
 
 import java.util.Hashtable;
 import java.util.LinkedList;
@@ -7,10 +7,11 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
-import com.iterates.redis.clone.model.exceptions.IncrDecrVariableOfTypeNotInteger;
-import com.iterates.redis.clone.model.exceptions.InvalidVariableType;
-import com.iterates.redis.clone.model.exceptions.RedisStoreException;
-import com.iterates.redis.clone.model.exceptions.VariableDoesNotExist;
+
+import com.iterates.redis.clone.store.model.exceptions.IncrDecrVariableOfTypeNotInteger;
+import com.iterates.redis.clone.store.model.exceptions.InvalidVariableType;
+import com.iterates.redis.clone.store.model.exceptions.RedisStoreException;
+import com.iterates.redis.clone.store.model.exceptions.VariableDoesNotExist;
 
 @Service
 @Primary
@@ -75,7 +76,7 @@ public class StoreImpl implements Store{
 			if (value.size() == 1) {
 				Object storedObject = value.get(0);
 				if (storedObject instanceof Number) {
-					value.add(0, ((AtomicInteger) storedObject).addAndGet(count));
+					value.set(0, (new AtomicInteger(((Number) storedObject).intValue())).addAndGet(count));
 				} else {
 					throw new IncrDecrVariableOfTypeNotInteger();
 				}
@@ -95,7 +96,7 @@ public class StoreImpl implements Store{
 			if (value.size() == 1) {
 				Object storedObject = value.get(0);
 				if (storedObject instanceof AtomicInteger) {
-					value.add(0, ((AtomicInteger) storedObject).addAndGet(-count));
+					value.set(0, (new AtomicInteger(((Number) storedObject).intValue())).addAndGet(-count));
 				} else {
 					throw new IncrDecrVariableOfTypeNotInteger();
 				}

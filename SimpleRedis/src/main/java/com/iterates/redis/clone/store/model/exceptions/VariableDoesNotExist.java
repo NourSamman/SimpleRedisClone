@@ -1,4 +1,4 @@
-package com.iterates.redis.clone.model.exceptions;
+package com.iterates.redis.clone.store.model.exceptions;
 
 public class VariableDoesNotExist extends RedisStoreException {
 

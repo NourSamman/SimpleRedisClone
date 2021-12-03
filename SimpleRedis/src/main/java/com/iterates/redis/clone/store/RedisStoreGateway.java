@@ -1,13 +1,14 @@
-package com.iterates.redis.clone.server.gateway;
+package com.iterates.redis.clone.store;
 
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.iterates.redis.clone.Store;
-import com.iterates.redis.clone.model.exceptions.RedisStoreException;
-import com.iterates.redis.clone.model.exceptions.VariableDoesNotExist;
+
+import com.iterates.redis.clone.store.model.exceptions.RedisStoreException;
+import com.iterates.redis.clone.store.model.exceptions.VariableDoesNotExist;
+import com.iterates.redis.clone.store.service.Store;
 
 @Service
 public class RedisStoreGateway {

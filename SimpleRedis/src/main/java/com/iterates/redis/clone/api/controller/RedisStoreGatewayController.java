@@ -1,4 +1,4 @@
-package com.iterates.redis.clone.server.rest.controller;
+package com.iterates.redis.clone.api.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.iterates.redis.clone.model.exceptions.RedisStoreException;
-import com.iterates.redis.clone.server.gateway.RedisStoreGateway;
+import com.iterates.redis.clone.store.RedisStoreGateway;
+import com.iterates.redis.clone.store.model.exceptions.RedisStoreException;
 
 @RestController
 public class RedisStoreGatewayController {
