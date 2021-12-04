@@ -95,7 +95,7 @@ public class StoreImpl implements Store{
 		synchronized (value) {
 			if (value.size() == 1) {
 				Object storedObject = value.get(0);
-				if (storedObject instanceof AtomicInteger) {
+				if (storedObject instanceof Number) {
 					value.set(0, (new AtomicInteger(((Number) storedObject).intValue())).addAndGet(-count));
 				} else {
 					throw new IncrDecrVariableOfTypeNotInteger();

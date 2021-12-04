@@ -1,8 +1,14 @@
 package com.iterates.redis.clone.api.controller;
 
+import static java.time.LocalDateTime.now;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static org.springframework.http.HttpStatus.OK;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,6 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.iterates.redis.clone.api.model.Response;
 import com.iterates.redis.clone.store.RedisStoreGateway;
 import com.iterates.redis.clone.store.model.exceptions.RedisStoreException;
 
@@ -28,91 +35,127 @@ public class RedisStoreGatewayController {
 	}
 
 	@GetMapping("variable/{varName}")
-	public Object get(@PathVariable String varName) {
-		try {
-			return redisStoreGateway.get(varName);
-		} catch (RedisStoreException e) {
-			return e.getMessage();
+	public ResponseEntity<Response> get(@PathVariable String varName) {
 
+		try {
+			Object value = redisStoreGateway.get(varName);
+			return ResponseEntity.ok(new Response(now(), OK.value(), OK, "SUCCESS", value));
+
+		} catch (RedisStoreException e) {
+			logger.error(e.getMessage());
+			return ResponseEntity.notFound().build();
 		}
 	}
 
 	@PostMapping("variable/{varName}")
-	public String set(@PathVariable String varName, @RequestBody Object value) {
+	public ResponseEntity<Response> set(@PathVariable String varName, @RequestBody Object value) {
+
 		try {
 			redisStoreGateway.set(varName, value);
-			return "Success";
+			return ResponseEntity.ok(new Response(now(), CREATED.value(), CREATED, "SUCCESS"));
+
 		} catch (RedisStoreException e) {
-			return e.getMessage();
+			logger.error(e.getMessage());
+			return ResponseEntity.internalServerError()
+					.body(new Response(now(), INTERNAL_SERVER_ERROR.value(), INTERNAL_SERVER_ERROR, e.getMessage()));
 		}
 	}
 
 	@PutMapping("incr/{varName}")
-	public String incr(@PathVariable String varName, @RequestBody int count) {
+	public ResponseEntity<Response> incr(@PathVariable String varName, @RequestBody int count) {
+
 		try {
 			redisStoreGateway.incr(varName, count);
-			return "Success";
+			return ResponseEntity.ok(new Response(now(), OK.value(), OK, "SUCCESS"));
+
 		} catch (RedisStoreException e) {
-			return e.getMessage();
+			logger.error(e.getMessage());
+			return ResponseEntity.internalServerError()
+					.body(new Response(now(), INTERNAL_SERVER_ERROR.value(), INTERNAL_SERVER_ERROR, e.getMessage()));
 		}
 	}
 
 	@PutMapping("decr/{varName}")
-	public String decr(@PathVariable String varName, @RequestBody int count) {
+	public ResponseEntity<Response> decr(@PathVariable String varName, @RequestBody int count) {
+
 		try {
 			redisStoreGateway.decr(varName, count);
-			return "Success";
+			return ResponseEntity.ok(new Response(now(), OK.value(), OK, "SUCCESS"));
+
 		} catch (RedisStoreException e) {
-			return e.getMessage();
+			logger.error(e.getMessage());
+			return ResponseEntity.internalServerError()
+					.body(new Response(now(), INTERNAL_SERVER_ERROR.value(), INTERNAL_SERVER_ERROR, e.getMessage()));
 		}
 	}
 
 	@PutMapping("rPush/{varName}")
-	public String rPush(@PathVariable String varName, @RequestBody Object count) {
+	public ResponseEntity<Response> rPush(@PathVariable String varName, @RequestBody Object count) {
+
 		try {
 			redisStoreGateway.rPush(varName, count);
-			return "Success";
+			return ResponseEntity.ok(new Response(now(), OK.value(), OK, "SUCCESS"));
+
 		} catch (RedisStoreException e) {
-			return e.getMessage();
+			logger.error(e.getMessage());
+			return ResponseEntity.internalServerError()
+					.body(new Response(now(), INTERNAL_SERVER_ERROR.value(), INTERNAL_SERVER_ERROR, e.getMessage()));
 		}
 	}
 
 	@PutMapping("rPop/{varName}")
-	public Object rPop(@PathVariable String varName) {
+	public ResponseEntity<Response> rPop(@PathVariable String varName) {
+
 		try {
-			return redisStoreGateway.rPop(varName);
+			Object returnedObject = redisStoreGateway.rPop(varName);
+			return ResponseEntity.ok(new Response(now(), OK.value(), OK, "SUCCESS", returnedObject));
 
 		} catch (RedisStoreException e) {
-			return e.getMessage();
+			logger.error(e.getMessage());
+			return ResponseEntity.internalServerError()
+					.body(new Response(now(), INTERNAL_SERVER_ERROR.value(), INTERNAL_SERVER_ERROR, e.getMessage()));
 		}
 	}
 
 	@PutMapping("lPush/{varName}")
-	public String lPush(@PathVariable String varName, @RequestBody Object count) {
+	public ResponseEntity<Response> lPush(@PathVariable String varName, @RequestBody Object count) {
+
 		try {
 			redisStoreGateway.lPush(varName, count);
-			return "Success";
+			return ResponseEntity.ok(new Response(now(), OK.value(), OK, "SUCCESS"));
+
 		} catch (RedisStoreException e) {
-			return e.getMessage();
+			logger.error(e.getMessage());
+			return ResponseEntity.internalServerError()
+					.body(new Response(now(), INTERNAL_SERVER_ERROR.value(), INTERNAL_SERVER_ERROR, e.getMessage()));
 		}
 	}
 
 	@PutMapping("lPop/{varName}")
-	public Object lPop(@PathVariable String varName) {
+	public ResponseEntity<Response> lPop(@PathVariable String varName) {
+
 		try {
-			return redisStoreGateway.lPop(varName);
+			Object returnedObject = redisStoreGateway.lPop(varName);
+			return ResponseEntity.ok(new Response(now(), OK.value(), OK, "SUCCESS", returnedObject));
 
 		} catch (RedisStoreException e) {
-			return e.getMessage();
+			logger.error(e.getMessage());
+			return ResponseEntity.internalServerError()
+					.body(new Response(now(), INTERNAL_SERVER_ERROR.value(), INTERNAL_SERVER_ERROR, e.getMessage()));
 		}
 	}
 
 	@PutMapping("lIndex/{varName}")
 	public Object lIndex(@PathVariable String varName, @RequestBody int index) {
+
 		try {
-			return redisStoreGateway.lIndex(varName, index);
+			Object returnedObject = redisStoreGateway.lIndex(varName, index);
+			return ResponseEntity.ok(new Response(now(), OK.value(), OK, "SUCCESS", returnedObject));
+
 		} catch (RedisStoreException e) {
-			return e.getMessage();
+			logger.error(e.getMessage());
+			return ResponseEntity.internalServerError()
+					.body(new Response(now(), INTERNAL_SERVER_ERROR.value(), INTERNAL_SERVER_ERROR, e.getMessage()));
 		}
 	}
 }
