@@ -26,6 +26,7 @@ public class RedisStoreGatewayController {
 	private RedisStoreGateway redisStoreGateway;
 
 	Logger logger = LoggerFactory.getLogger(RedisStoreGateway.class);
+	private static String SUCCESS = "SUCCESS";
 
 	@Autowired
 	public RedisStoreGatewayController(RedisStoreGateway redisStoreGateway) {
@@ -39,7 +40,7 @@ public class RedisStoreGatewayController {
 
 		try {
 			Object value = redisStoreGateway.get(varName);
-			return ResponseEntity.ok(new Response(now(), OK.value(), OK, "SUCCESS", value));
+			return ResponseEntity.ok(new Response(now(), OK.value(), OK, SUCCESS, value));
 
 		} catch (RedisStoreException e) {
 			logger.error(e.getMessage());
@@ -52,7 +53,7 @@ public class RedisStoreGatewayController {
 
 		try {
 			redisStoreGateway.set(varName, value);
-			return ResponseEntity.ok(new Response(now(), CREATED.value(), CREATED, "SUCCESS"));
+			return ResponseEntity.ok(new Response(now(), CREATED.value(), CREATED, SUCCESS));
 
 		} catch (RedisStoreException e) {
 			logger.error(e.getMessage());
@@ -66,7 +67,7 @@ public class RedisStoreGatewayController {
 
 		try {
 			redisStoreGateway.incr(varName, count);
-			return ResponseEntity.ok(new Response(now(), OK.value(), OK, "SUCCESS"));
+			return ResponseEntity.ok(new Response(now(), OK.value(), OK, SUCCESS));
 
 		} catch (RedisStoreException e) {
 			logger.error(e.getMessage());
@@ -80,7 +81,7 @@ public class RedisStoreGatewayController {
 
 		try {
 			redisStoreGateway.decr(varName, count);
-			return ResponseEntity.ok(new Response(now(), OK.value(), OK, "SUCCESS"));
+			return ResponseEntity.ok(new Response(now(), OK.value(), OK, SUCCESS));
 
 		} catch (RedisStoreException e) {
 			logger.error(e.getMessage());
@@ -94,7 +95,7 @@ public class RedisStoreGatewayController {
 
 		try {
 			redisStoreGateway.rPush(varName, count);
-			return ResponseEntity.ok(new Response(now(), OK.value(), OK, "SUCCESS"));
+			return ResponseEntity.ok(new Response(now(), OK.value(), OK, SUCCESS));
 
 		} catch (RedisStoreException e) {
 			logger.error(e.getMessage());
@@ -122,7 +123,7 @@ public class RedisStoreGatewayController {
 
 		try {
 			redisStoreGateway.lPush(varName, count);
-			return ResponseEntity.ok(new Response(now(), OK.value(), OK, "SUCCESS"));
+			return ResponseEntity.ok(new Response(now(), OK.value(), OK, SUCCESS));
 
 		} catch (RedisStoreException e) {
 			logger.error(e.getMessage());
@@ -136,7 +137,7 @@ public class RedisStoreGatewayController {
 
 		try {
 			Object returnedObject = redisStoreGateway.lPop(varName);
-			return ResponseEntity.ok(new Response(now(), OK.value(), OK, "SUCCESS", returnedObject));
+			return ResponseEntity.ok(new Response(now(), OK.value(), OK, SUCCESS, returnedObject));
 
 		} catch (RedisStoreException e) {
 			logger.error(e.getMessage());
@@ -150,7 +151,7 @@ public class RedisStoreGatewayController {
 
 		try {
 			Object returnedObject = redisStoreGateway.lIndex(varName, index);
-			return ResponseEntity.ok(new Response(now(), OK.value(), OK, "SUCCESS", returnedObject));
+			return ResponseEntity.ok(new Response(now(), OK.value(), OK, SUCCESS, returnedObject));
 
 		} catch (RedisStoreException e) {
 			logger.error(e.getMessage());
@@ -158,4 +159,5 @@ public class RedisStoreGatewayController {
 					.body(new Response(now(), INTERNAL_SERVER_ERROR.value(), INTERNAL_SERVER_ERROR, e.getMessage()));
 		}
 	}
+
 }
