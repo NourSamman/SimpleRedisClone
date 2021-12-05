@@ -1,38 +1,28 @@
 package com.iterates.redis.clone.store;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.iterates.redis.clone.store.model.exceptions.NotAllowedVariableError;
 import com.iterates.redis.clone.store.model.exceptions.RedisStoreException;
-import com.iterates.redis.clone.store.model.exceptions.VariableDoesNotExist;
 import com.iterates.redis.clone.store.service.Store;
 
 @Service
 public class RedisStoreGateway {
 
-	
 	private Store store;
 	Logger logger = LoggerFactory.getLogger(RedisStoreGateway.class);
 
-	
 	@Autowired
 	public RedisStoreGateway(Store store) {
 		this.store = store;
 		logger.info("RedisStoreGateway started");
 	}
-	
-	
-	public void set(String varName, Object value) throws RedisStoreException {
-		try {
-			store.set(varName, value);
-		} catch (VariableDoesNotExist e) {
 
-		} catch (Exception e) {
-			throw new UnknownError();
-		}
+	public void set(String varName, Object value) throws RedisStoreException {
+		store.set(varName, value);
 	}
 
 	public Object get(String varName) throws RedisStoreException {
@@ -41,7 +31,6 @@ public class RedisStoreGateway {
 
 	public void incr(String varName, int count) throws RedisStoreException {
 		store.incr(varName, count);
-		
 	}
 
 	public void decr(String varName, int count) throws RedisStoreException {
@@ -69,8 +58,11 @@ public class RedisStoreGateway {
 	}
 
 	public void expires(String varName, long seconds) throws RedisStoreException {
-		// TODO Auto-generated method stub
+
+		if (seconds <= 0)
+			throw new NotAllowedVariableError("Expire Time should be greater than zero!");
 		
+		store.expires(varName, seconds);
 	}
 
 }

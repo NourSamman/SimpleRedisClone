@@ -160,4 +160,17 @@ public class RedisStoreGatewayController {
 		}
 	}
 
+	@PutMapping("expire/{varName}")
+	public Object expire(@PathVariable String varName, @RequestBody long seconds) {
+
+		try {
+			redisStoreGateway.expires(varName, seconds);
+			return ResponseEntity.ok(new Response(now(), OK.value(), OK, SUCCESS));
+
+		} catch (RedisStoreException e) {
+			logger.error(e.getMessage());
+			return ResponseEntity.internalServerError()
+					.body(new Response(now(), INTERNAL_SERVER_ERROR.value(), INTERNAL_SERVER_ERROR, e.getMessage()));
+		}
+	}
 }
