@@ -1,4 +1,4 @@
-package com.iterates.redis.clone.api.controller;
+package com.redis.clone.api.controller;
 
 import static java.time.LocalDateTime.now;
 import static org.springframework.http.HttpStatus.CREATED;
@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.iterates.redis.clone.api.model.Response;
-import com.iterates.redis.clone.store.RedisStoreGateway;
-import com.iterates.redis.clone.store.model.exceptions.RedisStoreException;
+import com.redis.clone.api.model.Response;
+import com.redis.clone.store.RedisStoreGateway;
+import com.redis.clone.store.model.exceptions.RedisStoreException;
 
 @RestController
 public class RedisStoreGatewayController {

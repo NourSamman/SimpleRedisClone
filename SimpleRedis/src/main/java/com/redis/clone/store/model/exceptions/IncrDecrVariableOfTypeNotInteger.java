@@ -1,4 +1,4 @@
-package com.iterates.redis.clone.store.model.exceptions;
+package com.redis.clone.store.model.exceptions;
 
 public class IncrDecrVariableOfTypeNotInteger extends RedisStoreException {
 

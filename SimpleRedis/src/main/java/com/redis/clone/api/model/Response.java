@@ -1,4 +1,4 @@
-package com.iterates.redis.clone.api.model;
+package com.redis.clone.api.model;
 
 import java.time.LocalDateTime;
 

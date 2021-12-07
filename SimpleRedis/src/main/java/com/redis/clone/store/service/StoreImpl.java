@@ -1,4 +1,4 @@
-package com.iterates.redis.clone.store.service;
+package com.redis.clone.store.service;
 
 import java.util.Hashtable;
 import java.util.LinkedList;
@@ -12,10 +12,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
-import com.iterates.redis.clone.store.model.exceptions.IncrDecrVariableOfTypeNotInteger;
-import com.iterates.redis.clone.store.model.exceptions.InvalidVariableType;
-import com.iterates.redis.clone.store.model.exceptions.RedisStoreException;
-import com.iterates.redis.clone.store.model.exceptions.VariableDoesNotExist;
+import com.redis.clone.store.model.exceptions.IncrDecrVariableOfTypeNotInteger;
+import com.redis.clone.store.model.exceptions.InvalidVariableType;
+import com.redis.clone.store.model.exceptions.RedisStoreException;
+import com.redis.clone.store.model.exceptions.VariableDoesNotExist;
 
 @Service
 @Primary

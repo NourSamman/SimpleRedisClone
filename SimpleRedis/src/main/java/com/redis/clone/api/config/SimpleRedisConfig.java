@@ -1,4 +1,4 @@
-package com.iterates.redis.clone.api.config;
+package com.redis.clone.api.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
