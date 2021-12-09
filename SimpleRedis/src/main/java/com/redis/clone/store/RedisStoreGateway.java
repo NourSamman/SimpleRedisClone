@@ -18,7 +18,7 @@ public class RedisStoreGateway {
 	@Autowired
 	public RedisStoreGateway(Store store) {
 		this.store = store;
-		logger.info("RedisStoreGateway started");
+		logger.info(">>> STARTING RedisStoreGateway");
 	}
 
 	public void set(String varName, Object value) throws RedisStoreException {

@@ -31,13 +31,12 @@ public class RedisStoreGatewayController {
 	@Autowired
 	public RedisStoreGatewayController(RedisStoreGateway redisStoreGateway) {
 		this.redisStoreGateway = redisStoreGateway;
-		logger.info("REST API IS STARTED");
-
+		logger.info(">>> STARTING RedisStoreGatewayController");
 	}
 
 	@GetMapping("variable/{varName}")
 	public ResponseEntity<Response> get(@PathVariable String varName) {
-
+		logger.info(">>> CALLING Get Method");
 		try {
 			Object value = redisStoreGateway.get(varName);
 			return ResponseEntity.ok(new Response(now(), OK.value(), OK, SUCCESS, value));
@@ -50,7 +49,7 @@ public class RedisStoreGatewayController {
 
 	@PostMapping("variable/{varName}")
 	public ResponseEntity<Response> set(@PathVariable String varName, @RequestBody Object value) {
-
+		logger.info(">>> CALLING Set Method");
 		try {
 			redisStoreGateway.set(varName, value);
 			return ResponseEntity.ok(new Response(now(), CREATED.value(), CREATED, SUCCESS));
@@ -64,7 +63,7 @@ public class RedisStoreGatewayController {
 
 	@PutMapping("incr/{varName}")
 	public ResponseEntity<Response> incr(@PathVariable String varName, @RequestBody int count) {
-
+		logger.info(">>> CALLING Incr Method");
 		try {
 			redisStoreGateway.incr(varName, count);
 			return ResponseEntity.ok(new Response(now(), OK.value(), OK, SUCCESS));
@@ -78,7 +77,7 @@ public class RedisStoreGatewayController {
 
 	@PutMapping("decr/{varName}")
 	public ResponseEntity<Response> decr(@PathVariable String varName, @RequestBody int count) {
-
+		logger.info(">>> CALLING Decr Method");
 		try {
 			redisStoreGateway.decr(varName, count);
 			return ResponseEntity.ok(new Response(now(), OK.value(), OK, SUCCESS));
@@ -92,7 +91,7 @@ public class RedisStoreGatewayController {
 
 	@PutMapping("rPush/{varName}")
 	public ResponseEntity<Response> rPush(@PathVariable String varName, @RequestBody Object count) {
-
+		logger.info(">>> CALLING RPush Method");
 		try {
 			redisStoreGateway.rPush(varName, count);
 			return ResponseEntity.ok(new Response(now(), OK.value(), OK, SUCCESS));
@@ -106,7 +105,7 @@ public class RedisStoreGatewayController {
 
 	@PutMapping("rPop/{varName}")
 	public ResponseEntity<Response> rPop(@PathVariable String varName) {
-
+		logger.info(">>> CALLING RPop Method");
 		try {
 			Object returnedObject = redisStoreGateway.rPop(varName);
 			return ResponseEntity.ok(new Response(now(), OK.value(), OK, "SUCCESS", returnedObject));
@@ -120,7 +119,7 @@ public class RedisStoreGatewayController {
 
 	@PutMapping("lPush/{varName}")
 	public ResponseEntity<Response> lPush(@PathVariable String varName, @RequestBody Object count) {
-
+		logger.info(">>> CALLING LPush Method");
 		try {
 			redisStoreGateway.lPush(varName, count);
 			return ResponseEntity.ok(new Response(now(), OK.value(), OK, SUCCESS));
@@ -134,7 +133,7 @@ public class RedisStoreGatewayController {
 
 	@PutMapping("lPop/{varName}")
 	public ResponseEntity<Response> lPop(@PathVariable String varName) {
-
+		logger.info(">>> CALLING LPop Method");
 		try {
 			Object returnedObject = redisStoreGateway.lPop(varName);
 			return ResponseEntity.ok(new Response(now(), OK.value(), OK, SUCCESS, returnedObject));
@@ -148,7 +147,7 @@ public class RedisStoreGatewayController {
 
 	@PutMapping("lIndex/{varName}")
 	public Object lIndex(@PathVariable String varName, @RequestBody int index) {
-
+		logger.info(">>> CALLING LIndex Method");
 		try {
 			Object returnedObject = redisStoreGateway.lIndex(varName, index);
 			return ResponseEntity.ok(new Response(now(), OK.value(), OK, SUCCESS, returnedObject));
@@ -162,7 +161,7 @@ public class RedisStoreGatewayController {
 
 	@PutMapping("expire/{varName}")
 	public Object expire(@PathVariable String varName, @RequestBody long seconds) {
-
+		logger.info(">>> CALLING Expire Method");
 		try {
 			redisStoreGateway.expires(varName, seconds);
 			return ResponseEntity.ok(new Response(now(), OK.value(), OK, SUCCESS));
