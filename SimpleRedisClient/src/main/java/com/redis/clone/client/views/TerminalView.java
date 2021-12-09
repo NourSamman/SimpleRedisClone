@@ -2,9 +2,15 @@ package com.redis.clone.client.views;
 
 import com.flowingcode.vaadin.addons.xterm.ITerminalClipboard.UseSystemClipboard;
 import com.flowingcode.vaadin.addons.xterm.ITerminalOptions.CursorStyle;
+import com.github.javaparser.utils.Log;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.flowingcode.vaadin.addons.xterm.TerminalHistory;
-import com.flowingcode.vaadin.addons.xterm.TerminalTheme;
 import com.flowingcode.vaadin.addons.xterm.XTerm;
+import com.redis.clone.client.backend.ClientService;
+import com.redis.clone.client.views.command.CommandParser;
 import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -20,21 +26,28 @@ import com.vaadin.flow.shared.ui.LoadMode;
 @StyleSheet(loadMode = LoadMode.EAGER, value = "context://global-style.css")
 public class TerminalView extends VerticalLayout {
 
+	Logger logger = LoggerFactory.getLogger(TerminalView.class);
+
 	private XTerm xterm;
+	private CommandParser commandParser;
 
 	public TerminalView() {
-		
-		setSizeFull();
-		setPadding(false);
-		getElement().getStyle().set("background", "black");
 
+		initTerminalView();
 		initTerminalConfig();
+		commandParser = new CommandParser();
 
 		add(xterm);
 	}
 
+	private void initTerminalView() {
+		setSizeFull();
+		setPadding(false);
+		getElement().getStyle().set("background", "black");
+	}
+
 	private void initTerminalConfig() {
-		
+
 		xterm = new XTerm();
 		xterm.setPrompt("user@redis# ");
 
@@ -57,27 +70,19 @@ public class TerminalView extends VerticalLayout {
 		TerminalHistory.extend(xterm);
 
 		xterm.addLineListener(ev -> {
-			String[] line = ev.getLine().toLowerCase().split("\\s+");
-			Notification.show(line[0]);
-			switch (line[0]) {
-			case "color":
-				if (line.length > 1) {
-					if (line[1].equals("on")) {
-						xterm.setTheme(
-								new TerminalTheme().withBackground("rgb(255,255,255)").withForeground("rgb(0,0,0)"));
-						break;
-					} else if (line[1].equals("off")) {
-						xterm.setTheme(new TerminalTheme());
-						break;
+			if (ev.getLine() != null && !ev.getLine().trim().isEmpty()) {
+
+				if (ev.getLine().trim().equalsIgnoreCase("CLS"))
+					xterm.clear();
+				else
+					try {
+						commandParser.parseCommand(ev.getLine());
+
+					} catch (Exception e) {
+						Log.error(e.getMessage());
+						xterm.writeln(e.getMessage());
 					}
-				}
-				xterm.writeln("color on:  use TI-99/4A palette");
-				xterm.writeln("color off: use default palette");
-				break;
-			default:
-				if (!ev.getLine().trim().isEmpty()) {
-					xterm.writeln("Unknown command: " + line[0]);
-				}
+
 			}
 
 			xterm.writePrompt();

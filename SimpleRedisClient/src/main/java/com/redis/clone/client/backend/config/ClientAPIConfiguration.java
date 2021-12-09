@@ -21,7 +21,7 @@ public class ClientAPIConfiguration {
 	@Bean
 	public RestTemplate restTemplate() {
 
-		logger.info("Init Rest Template...");
+		logger.info(">>> Init Rest Template Configuration");
 
 		HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory();
 		clientHttpRequestFactory.setHttpClient(HttpClientBuilder.create().build());
