@@ -146,7 +146,7 @@ public class RedisStoreGatewayController {
 	}
 
 	@PutMapping("lIndex/{varName}")
-	public Object lIndex(@PathVariable String varName, @RequestBody int index) {
+	public ResponseEntity<Response> lIndex(@PathVariable String varName, @RequestBody int index) {
 		logger.info(">>> CALLING LIndex Method");
 		try {
 			Object returnedObject = redisStoreGateway.lIndex(varName, index);
@@ -160,7 +160,7 @@ public class RedisStoreGatewayController {
 	}
 
 	@PutMapping("expire/{varName}")
-	public Object expire(@PathVariable String varName, @RequestBody long seconds) {
+	public ResponseEntity<Response> expire(@PathVariable String varName, @RequestBody long seconds) {
 		logger.info(">>> CALLING Expire Method");
 		try {
 			redisStoreGateway.expires(varName, seconds);

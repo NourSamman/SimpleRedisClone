@@ -142,7 +142,7 @@ public class StoreImpl implements Store {
 
 		LinkedList<Object> varNameList = storeStructure.get(varName);
 
-		return varNameList.removeLast();
+		return varNameList.removeFirst();
 	}
 
 	public synchronized Object lIndex(String varName, int index) throws RedisStoreException {
