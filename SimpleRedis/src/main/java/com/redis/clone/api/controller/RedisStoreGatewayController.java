@@ -4,6 +4,7 @@ import static java.time.LocalDateTime.now;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.redis.clone.api.model.Response;
 import com.redis.clone.store.RedisStoreGateway;
 import com.redis.clone.store.model.exceptions.RedisStoreException;
+import com.redis.clone.store.model.exceptions.VariableDoesNotExist;
 
 @RestController
 public class RedisStoreGatewayController {
@@ -42,8 +44,12 @@ public class RedisStoreGatewayController {
 			return ResponseEntity.ok(new Response(now(), OK.value(), OK, SUCCESS, value));
 
 		} catch (RedisStoreException e) {
-			logger.error(e.getMessage());
-			return ResponseEntity.notFound().build();
+			if (e instanceof VariableDoesNotExist)
+				return ResponseEntity.ok(new Response(now(), NOT_FOUND.value(), NOT_FOUND, e.getMessage()));
+			else
+				return ResponseEntity
+						.ok(new Response(now(), INTERNAL_SERVER_ERROR.value(), INTERNAL_SERVER_ERROR, e.getMessage()));
+
 		}
 	}
 
@@ -56,8 +62,8 @@ public class RedisStoreGatewayController {
 
 		} catch (RedisStoreException e) {
 			logger.error(e.getMessage());
-			return ResponseEntity.internalServerError()
-					.body(new Response(now(), INTERNAL_SERVER_ERROR.value(), INTERNAL_SERVER_ERROR, e.getMessage()));
+			return ResponseEntity
+					.ok(new Response(now(), INTERNAL_SERVER_ERROR.value(), INTERNAL_SERVER_ERROR, e.getMessage()));
 		}
 	}
 
@@ -70,8 +76,8 @@ public class RedisStoreGatewayController {
 
 		} catch (RedisStoreException e) {
 			logger.error(e.getMessage());
-			return ResponseEntity.internalServerError()
-					.body(new Response(now(), INTERNAL_SERVER_ERROR.value(), INTERNAL_SERVER_ERROR, e.getMessage()));
+			return ResponseEntity
+					.ok(new Response(now(), INTERNAL_SERVER_ERROR.value(), INTERNAL_SERVER_ERROR, e.getMessage()));
 		}
 	}
 
@@ -84,22 +90,22 @@ public class RedisStoreGatewayController {
 
 		} catch (RedisStoreException e) {
 			logger.error(e.getMessage());
-			return ResponseEntity.internalServerError()
-					.body(new Response(now(), INTERNAL_SERVER_ERROR.value(), INTERNAL_SERVER_ERROR, e.getMessage()));
+			return ResponseEntity
+					.ok(new Response(now(), INTERNAL_SERVER_ERROR.value(), INTERNAL_SERVER_ERROR, e.getMessage()));
 		}
 	}
 
 	@PutMapping("rPush/{varName}")
-	public ResponseEntity<Response> rPush(@PathVariable String varName, @RequestBody Object count) {
+	public ResponseEntity<Response> rPush(@PathVariable String varName, @RequestBody Object value) {
 		logger.info(">>> CALLING RPush Method");
 		try {
-			redisStoreGateway.rPush(varName, count);
+			redisStoreGateway.rPush(varName, value);
 			return ResponseEntity.ok(new Response(now(), OK.value(), OK, SUCCESS));
 
 		} catch (RedisStoreException e) {
 			logger.error(e.getMessage());
-			return ResponseEntity.internalServerError()
-					.body(new Response(now(), INTERNAL_SERVER_ERROR.value(), INTERNAL_SERVER_ERROR, e.getMessage()));
+			return ResponseEntity
+					.ok(new Response(now(), INTERNAL_SERVER_ERROR.value(), INTERNAL_SERVER_ERROR, e.getMessage()));
 		}
 	}
 
@@ -112,22 +118,22 @@ public class RedisStoreGatewayController {
 
 		} catch (RedisStoreException e) {
 			logger.error(e.getMessage());
-			return ResponseEntity.internalServerError()
-					.body(new Response(now(), INTERNAL_SERVER_ERROR.value(), INTERNAL_SERVER_ERROR, e.getMessage()));
+			return ResponseEntity
+					.ok(new Response(now(), INTERNAL_SERVER_ERROR.value(), INTERNAL_SERVER_ERROR, e.getMessage()));
 		}
 	}
 
 	@PutMapping("lPush/{varName}")
-	public ResponseEntity<Response> lPush(@PathVariable String varName, @RequestBody Object count) {
+	public ResponseEntity<Response> lPush(@PathVariable String varName, @RequestBody Object value) {
 		logger.info(">>> CALLING LPush Method");
 		try {
-			redisStoreGateway.lPush(varName, count);
+			redisStoreGateway.lPush(varName, value);
 			return ResponseEntity.ok(new Response(now(), OK.value(), OK, SUCCESS));
 
 		} catch (RedisStoreException e) {
 			logger.error(e.getMessage());
-			return ResponseEntity.internalServerError()
-					.body(new Response(now(), INTERNAL_SERVER_ERROR.value(), INTERNAL_SERVER_ERROR, e.getMessage()));
+			return ResponseEntity
+					.ok(new Response(now(), INTERNAL_SERVER_ERROR.value(), INTERNAL_SERVER_ERROR, e.getMessage()));
 		}
 	}
 
@@ -140,8 +146,8 @@ public class RedisStoreGatewayController {
 
 		} catch (RedisStoreException e) {
 			logger.error(e.getMessage());
-			return ResponseEntity.internalServerError()
-					.body(new Response(now(), INTERNAL_SERVER_ERROR.value(), INTERNAL_SERVER_ERROR, e.getMessage()));
+			return ResponseEntity
+					.ok(new Response(now(), INTERNAL_SERVER_ERROR.value(), INTERNAL_SERVER_ERROR, e.getMessage()));
 		}
 	}
 
@@ -154,8 +160,8 @@ public class RedisStoreGatewayController {
 
 		} catch (RedisStoreException e) {
 			logger.error(e.getMessage());
-			return ResponseEntity.internalServerError()
-					.body(new Response(now(), INTERNAL_SERVER_ERROR.value(), INTERNAL_SERVER_ERROR, e.getMessage()));
+			return ResponseEntity
+					.ok(new Response(now(), INTERNAL_SERVER_ERROR.value(), INTERNAL_SERVER_ERROR, e.getMessage()));
 		}
 	}
 
@@ -168,8 +174,8 @@ public class RedisStoreGatewayController {
 
 		} catch (RedisStoreException e) {
 			logger.error(e.getMessage());
-			return ResponseEntity.internalServerError()
-					.body(new Response(now(), INTERNAL_SERVER_ERROR.value(), INTERNAL_SERVER_ERROR, e.getMessage()));
+			return ResponseEntity
+					.ok(new Response(now(), INTERNAL_SERVER_ERROR.value(), INTERNAL_SERVER_ERROR, e.getMessage()));
 		}
 	}
 }

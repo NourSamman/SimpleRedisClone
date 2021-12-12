@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import com.redis.clone.store.model.exceptions.IncrDecrVariableOfTypeNotInteger;
+import com.redis.clone.store.model.exceptions.IndexOutOfBoundsException;
 import com.redis.clone.store.model.exceptions.InvalidVariableType;
 import com.redis.clone.store.model.exceptions.RedisStoreException;
 import com.redis.clone.store.model.exceptions.VariableDoesNotExist;
@@ -151,7 +152,14 @@ public class StoreImpl implements Store {
 
 		List<Object> varNameList = storeStructure.get(varName);
 
-		return varNameList.get(index);
+		Object obj = null;
+		try {
+			obj = varNameList.get(index);
+		} catch (java.lang.IndexOutOfBoundsException indexOutOfBoundsException) {
+			throw new IndexOutOfBoundsException(index);
+		}
+
+		return obj;
 
 	}
 

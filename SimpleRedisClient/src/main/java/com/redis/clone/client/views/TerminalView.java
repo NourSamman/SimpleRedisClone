@@ -1,18 +1,15 @@
 package com.redis.clone.client.views;
 
-import com.flowingcode.vaadin.addons.xterm.ITerminalClipboard.UseSystemClipboard;
-import com.flowingcode.vaadin.addons.xterm.ITerminalOptions.CursorStyle;
-import com.github.javaparser.utils.Log;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import com.flowingcode.vaadin.addons.xterm.ITerminalClipboard.UseSystemClipboard;
+import com.flowingcode.vaadin.addons.xterm.ITerminalOptions.CursorStyle;
+import com.redis.clone.client.command.Command;
 import com.flowingcode.vaadin.addons.xterm.TerminalHistory;
 import com.flowingcode.vaadin.addons.xterm.XTerm;
-import com.redis.clone.client.backend.ClientService;
-import com.redis.clone.client.views.command.CommandParser;
 import com.vaadin.flow.component.dependency.StyleSheet;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -29,13 +26,14 @@ public class TerminalView extends VerticalLayout {
 	Logger logger = LoggerFactory.getLogger(TerminalView.class);
 
 	private XTerm xterm;
-	private CommandParser commandParser;
+
+	@Autowired
+	private Command command;
 
 	public TerminalView() {
 
 		initTerminalView();
 		initTerminalConfig();
-		commandParser = new CommandParser();
 
 		add(xterm);
 	}
@@ -74,15 +72,15 @@ public class TerminalView extends VerticalLayout {
 
 				if (ev.getLine().trim().equalsIgnoreCase("CLS"))
 					xterm.clear();
-				else
+				else {
 					try {
-						commandParser.parseCommand(ev.getLine());
-
+						String res = command.run(ev.getLine());
+						xterm.writeln(res);
 					} catch (Exception e) {
-						Log.error(e.getMessage());
+						logger.error(e.getMessage());
 						xterm.writeln(e.getMessage());
 					}
-
+				}
 			}
 
 			xterm.writePrompt();

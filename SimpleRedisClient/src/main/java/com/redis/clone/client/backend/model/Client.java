@@ -56,4 +56,10 @@ public class Client {
 		this.returnedObject = returnedObject;
 	}
 
+	@Override
+	public String toString() {
+		return "Client [timeStamp=" + timeStamp + ", statusCode=" + statusCode + ", httpStatus=" + httpStatus
+				+ ", message=" + message + ", returnedObject=" + returnedObject + "]";
+	}
+
 }

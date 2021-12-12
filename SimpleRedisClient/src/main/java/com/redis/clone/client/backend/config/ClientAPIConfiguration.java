@@ -25,8 +25,8 @@ public class ClientAPIConfiguration {
 
 		HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory();
 		clientHttpRequestFactory.setHttpClient(HttpClientBuilder.create().build());
-		clientHttpRequestFactory.setReadTimeout(3000);
-		clientHttpRequestFactory.setConnectTimeout(3000);
+		clientHttpRequestFactory.setReadTimeout(10000);
+		clientHttpRequestFactory.setConnectTimeout(10000);
 
 		RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
 		restTemplate.setUriTemplateHandler(new DefaultUriBuilderFactory(apiHost));
