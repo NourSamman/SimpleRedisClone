@@ -73,7 +73,11 @@ java -jar simpleredisclient-1.0-SNAPSHOT.war
 
 ## Screenshots
 
-![Screenshot](images/screenshot-1.png)
-![Screenshot](images/screenshot-2.png)
+![Screenshot](https://user-images.githubusercontent.com/70534517/145725759-7bd265f7-520c-405a-9e29-3020cf15e6ff.png)
+
+
+![screenshot-2](https://user-images.githubusercontent.com/70534517/145725769-d6fefe22-b0ea-488d-9fac-8f4ac593acb7.png)
+
+
 
 
