@@ -8,11 +8,11 @@ import com.redis.clone.client.command.model.CommandOperation;
 import com.redis.clone.client.exception.command.IntegerVariableTypeException;
 import com.redis.clone.client.exception.command.InvalidNumberArgumentException;
 
-public class CommandParser {
+public final class CommandParser {
 
-	Logger logger = LoggerFactory.getLogger(CommandParser.class);
+	static Logger logger = LoggerFactory.getLogger(CommandParser.class);
 
-	public CommandModel parseCommand(String command) throws Exception {
+	public static CommandModel parseCommand(String command) throws Exception {
 
 		String[] commandPillars = command.split("\\s+");
 
@@ -21,7 +21,7 @@ public class CommandParser {
 		if (commandPillars.length < 2 || commandPillars.length > 3
 				|| (operation.isA(CommandOperation.GET, CommandOperation.LPOP, CommandOperation.RPOP)
 						&& commandPillars.length > 2)
-				|| (!operation.isA(CommandOperation.GET, CommandOperation.LPOP, CommandOperation.RPOP)
+				|| (!operation.isA(CommandOperation.GET, CommandOperation.LPOP, CommandOperation.RPOP,CommandOperation.INCR,CommandOperation.DECR)
 						&& commandPillars.length != 3))
 			throw new InvalidNumberArgumentException(operation.getOperationDefinition());
 
@@ -34,12 +34,15 @@ public class CommandParser {
 				storedValue = parseToInt(commandPillars[2]);
 			else
 				storedValue = commandPillars[2];
-
+		
+		if(operation.isA(CommandOperation.INCR,CommandOperation.DECR) && storedValue == null)
+			storedValue =1;
+			
 		return new CommandModel(operation, varName, storedValue);
 
 	}
 
-	private Integer parseToInt(String input) throws IntegerVariableTypeException {
+	private static Integer parseToInt(String input) throws IntegerVariableTypeException {
 		try {
 			return Integer.parseInt(input);
 		} catch (NumberFormatException e) {

@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.flowingcode.vaadin.addons.xterm.ITerminalClipboard.UseSystemClipboard;
 import com.flowingcode.vaadin.addons.xterm.ITerminalOptions.CursorStyle;
-import com.redis.clone.client.command.Command;
+import com.redis.clone.client.command.CommandGateway;
 import com.flowingcode.vaadin.addons.xterm.TerminalHistory;
 import com.flowingcode.vaadin.addons.xterm.XTerm;
 import com.vaadin.flow.component.dependency.StyleSheet;
@@ -28,7 +28,7 @@ public class TerminalView extends VerticalLayout {
 	private XTerm xterm;
 
 	@Autowired
-	private Command command;
+	private CommandGateway command;
 
 	public TerminalView() {
 

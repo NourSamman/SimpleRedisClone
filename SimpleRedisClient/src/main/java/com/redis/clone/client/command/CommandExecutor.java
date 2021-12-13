@@ -34,23 +34,23 @@ public class CommandExecutor {
 		try {
 			switch (commandModel.getOperation()) {
 			case SET:
-				response = clientService.setVariable(commandModel.getVarName(), commandModel.getStoredValue());
+				response = clientService.setVariable(commandModel.getVarName(), commandModel.getToBeStoredValue());
 				break;
 			case GET:
 				response = clientService.getVariable(commandModel.getVarName());
 				break;
 			case INCR:
-				response = clientService.incr(commandModel.getVarName(), commandModel.getStoredValue());
+				response = clientService.incr(commandModel.getVarName(), commandModel.getToBeStoredValue());
 				break;
 			case DECR:
-				response = clientService.decr(commandModel.getVarName(), commandModel.getStoredValue());
+				response = clientService.decr(commandModel.getVarName(), commandModel.getToBeStoredValue());
 				break;
 			case RPUSH:
-				response = clientService.rPush(commandModel.getVarName(), commandModel.getStoredValue());
+				response = clientService.rPush(commandModel.getVarName(), commandModel.getToBeStoredValue());
 				break;
 
 			case LPUSH:
-				response = clientService.lPush(commandModel.getVarName(), commandModel.getStoredValue());
+				response = clientService.lPush(commandModel.getVarName(), commandModel.getToBeStoredValue());
 				break;
 			case RPOP:
 				response = clientService.rPop(commandModel.getVarName());
@@ -59,14 +59,14 @@ public class CommandExecutor {
 				response = clientService.lPop(commandModel.getVarName());
 				break;
 			case LINDEX:
-				response = clientService.lIndex(commandModel.getVarName(), commandModel.getStoredValue());
+				response = clientService.lIndex(commandModel.getVarName(), commandModel.getToBeStoredValue());
 				break;
 			case EXPIRE:
-				response = clientService.expire(commandModel.getVarName(), commandModel.getStoredValue());
+				response = clientService.expire(commandModel.getVarName(), commandModel.getToBeStoredValue());
 				break;
 			}
 
-		} catch (RestClientException restClientException) {
+		} catch (Exception restClientException) {
 			logger.error(restClientException.getMessage());
 			if (restClientException.getCause() != null
 					&& restClientException.getCause() instanceof HttpHostConnectException)

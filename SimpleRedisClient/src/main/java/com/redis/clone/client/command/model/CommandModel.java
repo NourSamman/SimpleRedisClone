@@ -4,13 +4,13 @@ public class CommandModel {
 
 	private CommandOperation operation;
 	private String varName;
-	private Object storedValue;
+	private Object toBeStoredValue;
 
 	public CommandModel(CommandOperation operation, String varName, Object storedValue) {
 		super();
 		this.operation = operation;
 		this.varName = varName;
-		this.storedValue = storedValue;
+		this.toBeStoredValue = storedValue;
 	}
 
 	public CommandOperation getOperation() {
@@ -29,17 +29,17 @@ public class CommandModel {
 		this.varName = varName;
 	}
 
-	public Object getStoredValue() {
-		return storedValue;
+	public Object getToBeStoredValue() {
+		return toBeStoredValue;
 	}
 
-	public void setStoredValue(Object storedValue) {
-		this.storedValue = storedValue;
+	public void setToBeStoredValue(Object toBeStoredValue) {
+		this.toBeStoredValue = toBeStoredValue;
 	}
 
 	@Override
 	public String toString() {
-		return "CommandModel [operation=" + operation + ", varName=" + varName + ", storedValue=" + storedValue + "]";
+		return "CommandModel [operation=" + operation + ", varName=" + varName + ", storedValue=" + toBeStoredValue + "]";
 	}
 
 }

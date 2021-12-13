@@ -9,21 +9,19 @@ import com.redis.clone.client.command.model.CommandModel;
 import com.redis.clone.client.command.model.CommandOperation;
 
 @Component
-public class Command {
+public class CommandGateway {
 
-	private CommandParser commandParser;
 
 	private CommandExecutor commandExecutor;
 
 	@Autowired
-	public Command(CommandExecutor commandExecutor) {
+	public CommandGateway(CommandExecutor commandExecutor) {
 		this.commandExecutor = commandExecutor;
-		commandParser = new CommandParser();
 	}
 
 	public String run(String command) throws Exception {
 
-		CommandModel commandModel = commandParser.parseCommand(command);
+		CommandModel commandModel = CommandParser.parseCommand(command);
 		Client response = commandExecutor.execute(commandModel);
 		String message = resolveClient(response, commandModel);
 
